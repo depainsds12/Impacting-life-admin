@@ -1,0 +1,112 @@
+// Here you can add other styles
+.sidebar-dark {
+  background-color: #09202c;
+}
+.sidebar-nav .nav-link:hover {
+  background-color: #50C878;
+}
+.ck-editor__editable {
+  min-height: 300px;
+  background-color: var(--cui-body-bg) !important;
+  padding: 10px;
+  border: 1px solid #a13535; /* Optional: Add border to the editable area */
+  border-radius: 4px;
+}
+.ck-reset_all :not(.ck-reset_all-excluded *),
+.ck.ck-reset,
+.ck.ck-reset_all {
+  background: #222833 !important;
+}
+.ck-reset_all :not(.ck-reset_all-excluded *),
+.ck.ck-reset_all {
+  color: white !important;
+}
+.privacy-Sec {
+  background-color: #f4f7f9;
+  padding-bottom: calc(66vw / var(--context));
+}
+
+.privacy-Sec .content-box {
+  position: relative;
+  padding: calc(115vw / var(--context)) calc(70vw / var(--context)) calc(110vw / var(--context))
+    calc(60vw / var(--context));
+  background-color: #fff;
+  border-radius: calc(12vw / var(--context));
+  height: 100%;
+}
+
+.privacy-Sec .content-box p {
+  font-size: calc(20vw / var(--context));
+  line-height: 1.45;
+}
+
+.privacy-Sec .content-box h4 {
+  font-size: calc(22vw / var(--context));
+  font-weight: 800;
+  font-family: var(--font-body);
+}
+
+.privacy-Sec .content-box .checkbox {
+  margin: calc(36vw / var(--context)) 0 calc(26vw / var(--context));
+}
+
+.privacy-Sec .content-box .sign-box {
+  border-bottom: calc(1vw / var(--context)) solid #b5b5c3;
+  max-width: calc(430vw / var(--context));
+  min-height: calc(40vw / var(--context));
+}
+
+.privacy-Sec .content-box h2 {
+  font-family: var(--font-Squada);
+  font-size: calc(37vw / var(--context));
+  margin: calc(29vw / var(--context)) 0 calc(23vw / var(--context));
+}
+
+.container-sm {
+  max-width: calc(1180vw / var(--context));
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 calc(20vw / var(--context));
+}
+
+@media (max-width: 768px) {
+  .container-sm {
+    padding: 0 calc(15vw / var(--context));
+  }
+}
+
+.privacy-Sec .content-box {
+  padding: 28px 20px;
+}
+.privacy-Sec .content-box h2 {
+  font-size: 29px;
+}
+
+.logopctop img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 90px;
+}
+
+.logopcbottom img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 90px;
+}
+
+.logo {
+  position: relative;
+  z-index: 1;
+}
+
+.privacycontract-ip h4 {
+  display: inline-block;
+}
+
+.privacycontract-ip p {
+  display: inline-block;
+  padding-left: 10px;
+}

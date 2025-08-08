@@ -10,16 +10,16 @@ import {
 import { CNavGroup, CNavItem, CNavTitle } from "@coreui/react"
 
 const _nav = [
-  {
-    component: CNavTitle,
-    name: "User Types",
-  },
-  {
-    component: CNavItem,
-    name: "ContactUs List",
-    to: "/contact-us-list",
-    icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
-  },
+  // {
+  //   component: CNavTitle,
+  //   name: "User Types",
+  // },
+  // {
+  //   component: CNavItem,
+  //   name: "ContactUs List",
+  //   to: "/contact-us-list",
+  //   icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
+  // },
   {
     component: CNavTitle,
     name: "CMS",

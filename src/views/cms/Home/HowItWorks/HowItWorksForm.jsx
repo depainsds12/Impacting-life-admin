@@ -35,11 +35,10 @@ const HowItWorksForm = () => {
     imageFile: null,
   })
 
-  // Fetch entry if editing
   useEffect(() => {
     if (itemId) {
       const fetchItem = async () => {
-        const url = `${getBaseURL()}/how-it-works/${itemId}`
+        const url = `${getBaseURL()}/cms/how-it-works/${itemId}`
         const token = getHeaders().token
         try {
           const response = await getAxios().get(url, {
@@ -99,7 +98,7 @@ const HowItWorksForm = () => {
     }
 
     try {
-      const url = itemId ? `${getBaseURL()}/how-it-works/${itemId}` : `${getBaseURL()}/how-it-works`
+      const url = itemId ? `${getBaseURL()}/cms/how-it-works/${itemId}` : `${getBaseURL()}/cms/how-it-works`
       const method = itemId ? "put" : "post"
       const formData = new FormData()
       formData.append("title", item.title)

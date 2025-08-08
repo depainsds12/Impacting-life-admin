@@ -4,6 +4,7 @@ import {
     CCardBody,
     CCardHeader,
     CCol,
+    CFormCheck,
     CFormInput,
     CFormLabel,
     CFormTextarea,
@@ -13,11 +14,13 @@ import {
 import React, { useEffect, useState } from "react"
 import { getAxios, getBaseURL, getHeaders } from "../../../api/config"
 import CustomToast from "../../../components/CustomToast/CustomToast"
+import { useLocation, useNavigate } from "react-router-dom"
 
 const Banner = () => {
     const [title, setTitle] = useState("")
     const [subtitle, setSubtitle] = useState("")
     const [link, setLink] = useState("")
+    const [slug, setSlug] = useState([])
     const [description, setDescription] = useState("")
     const [imageFile, setImageFile] = useState(null)
     const [imagePreview, setImagePreview] = useState("")
@@ -25,6 +28,9 @@ const Banner = () => {
     const [toastFlag, setToastFlag] = useState(false)
     const [toastMessage, setToastMessage] = useState("")
     const [toastColor, setToastColor] = useState("")
+    const navigate = useNavigate()
+    const location = useLocation()
+    const itemId = location.state?.id || null
 
     // Preview image on selection
     const handleImageChange = (event) => {
@@ -39,7 +45,7 @@ const Banner = () => {
 
     // Fetch existing banner data (if editing)
     useEffect(() => {
-        const url = `${getBaseURL()}/banner`
+        const url = `${getBaseURL()}/cms/banner/${itemId}`
         const token = getHeaders().token
         const fetchData = async () => {
             try {
@@ -52,6 +58,7 @@ const Banner = () => {
                     setTitle(response.data?.title || "")
                     setSubtitle(response.data?.subtitle || "")
                     setLink(response.data?.link || "")
+                    setSlug(response.data?.slug || [])
                     setDescription(response.data?.description || "")
                     if (response.data?.image) {
                         setImagePreview(response.data?.image)
@@ -64,24 +71,31 @@ const Banner = () => {
                 setTimeout(() => setToastFlag(false), 2000)
             }
         }
-        fetchData()
-    }, [])
+        if (itemId) {
+            fetchData()
+        }
+    }, [itemId])
 
     // Submit handler
     const onSubmit = async () => {
         setButtonLoading(true)
-        const url = `${getBaseURL()}/banner`
+        const url = itemId
+            ? `${getBaseURL()}/cms/banner/${itemId}`
+            : `${getBaseURL()}/cms/banner`;
+        const method = itemId ? 'put' : 'post';
+
         const token = getHeaders().token
 
         const formData = new FormData()
         formData.append("title", title)
         formData.append("subtitle", subtitle)
         formData.append("link", link)
+        slug.forEach((slugValue) => formData.append('slug[]', slugValue));
         formData.append("description", description)
         if (imageFile) formData.append("image", imageFile)
 
         try {
-            const response = await getAxios().put(url, formData, {
+            const response = await getAxios()[method](url, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "multipart/form-data",
@@ -92,6 +106,7 @@ const Banner = () => {
                 setToastMessage("Banner updated successfully")
                 setToastColor("success")
                 setTimeout(() => setToastFlag(false), 2000)
+                setTimeout(() => navigate('/banners'), 3000);
             } else {
                 throw new Error()
             }
@@ -104,6 +119,19 @@ const Banner = () => {
             setButtonLoading(false)
         }
     }
+
+    const handleCheckboxChange = (e) => {
+        const { value, checked } = e.target;
+        let updatedSlugs = slug;
+
+        if (checked) {
+            updatedSlugs.push(value);
+        } else {
+            updatedSlugs = updatedSlugs.filter((s) => s !== value);
+        }
+
+        setSlug([...updatedSlugs]);
+    };
 
     return (
         <>
@@ -120,6 +148,23 @@ const Banner = () => {
                             <strong>Banner Details</strong>
                         </CCardHeader>
                         <CCardBody>
+                            <div className="mb-3">
+                                <CFormLabel>Select Pages</CFormLabel>
+                                <div className="d-flex flex-wrap gap-3">
+                                    {['home', 'for business', 'course details'].map((s) => (
+                                        <CFormCheck
+                                            key={s}
+                                            type="checkbox"
+                                            id={`slug-${s}`}
+                                            label={s.charAt(0).toUpperCase() + s.slice(1)}
+                                            value={s}
+                                            checked={slug.includes(s)}
+                                            onChange={handleCheckboxChange}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+
                             {/* Title */}
                             <div className="mb-3">
                                 <CFormLabel className="fw-bold fs-7">Title</CFormLabel>

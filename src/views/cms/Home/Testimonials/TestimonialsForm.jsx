@@ -40,7 +40,7 @@ const TestimonialsForm = () => {
   useEffect(() => {
     if (itemId) {
       const fetchItem = async () => {
-        const url = `${getBaseURL()}/testimonials/${itemId}`
+        const url = `${getBaseURL()}/cms/testimonials/${itemId}`
         const token = getHeaders().token
         try {
           const response = await getAxios().get(url, {
@@ -111,8 +111,8 @@ const TestimonialsForm = () => {
 
     try {
       const url = itemId
-        ? `${getBaseURL()}/testimonials/${itemId}`
-        : `${getBaseURL()}/testimonials`
+        ? `${getBaseURL()}/cms/testimonials/${itemId}`
+        : `${getBaseURL()}/cms/testimonials`
       const method = itemId ? "put" : "post"
       const formData = new FormData()
       formData.append("name", item.name)

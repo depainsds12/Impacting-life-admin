@@ -33,7 +33,7 @@ const HowItWorksList = () => {
     const navigate = useNavigate()
 
     const fetchData = async () => {
-        const url = `${getBaseURL()}/how-it-works`
+        const url = `${getBaseURL()}/cms/how-it-works`
         const token = getHeaders().token
         try {
             const response = await getAxios().get(url, {
@@ -56,7 +56,7 @@ const HowItWorksList = () => {
     }
 
     const onDelete = async () => {
-        const url = `${getBaseURL()}/how-it-works/${deleteID}`
+        const url = `${getBaseURL()}/cms/how-it-works/${deleteID}`
         const token = getHeaders().token
         try {
             const response = await getAxios().delete(url, {

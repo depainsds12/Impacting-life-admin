@@ -2,18 +2,24 @@ import React from "react"
 import changePassword from "./views/pages/change-password/changePassword"
 const Dashboard = React.lazy(() => import("./views/dashboard/Dashboard"))
 
-// FOOTER CMS ROUTES
 const PrivacyPolicy = React.lazy(() => import("./views/cms/privacy-policy/PrivacyPolicy"))
 const TermsConditions = React.lazy(() => import("./views/cms/terms-conditions/TermsConditions"))
 const FAQs = React.lazy(() => import("./views/cms/faq/FAQList"))
 const AddFaq = React.lazy(() => import("./views/cms/faq/FAQs"))
 const Banner = React.lazy(() => import("./views/cms/banner/Banner"))
+const BannerList = React.lazy(() => import("./views/cms/banner/BannerList"))
 const HowItWorksList = React.lazy(() => import("./views/cms/Home/HowItWorks/HowItWorksList"))
 const HowItWorksForm = React.lazy(() => import("./views/cms/Home/HowItWorks/HowItWorksForm"))
 const Testimonials = React.lazy(() => import("./views/cms/Home/Testimonials/Testimonials"))
 const TestimonialsForm = React.lazy(
   () => import("./views/cms/Home/Testimonials/TestimonialsForm"),
 )
+const CTAList = React.lazy(() => import("./views/cms/cta/CTAList"))
+const CTAForm = React.lazy(() => import("./views/cms/cta/CTAForm"))
+const FooterCmsForm = React.lazy(() => import("./views/cms/footer/FooterCms"))
+
+const WhyChooseForm = React.lazy(() => import("./views/cms/business/WhyChooseForm"))
+
 
 //Chat Page Route
 
@@ -73,11 +79,18 @@ const routes = [
 
   { path: "/privacy-policy", name: "Privacy&Policy", element: PrivacyPolicy },
   { path: "/terms-conditions", name: "Terms&Conditions", element: TermsConditions },
+  { path: "/cta", name: "Testimonials", element: CTAList },
+  { path: "/cta-form", name: "CTA", element: CTAForm },
+  { path: "/footer", name: "Footer", element: FooterCmsForm },
+
+  { path: "/why-choose-impacting-life", name: "Why Choose Impacting Life", element: WhyChooseForm },
+
+
+  // HOME CMS ROUTES
   { path: "/faqs", name: "FAQ", element: FAQs },
   { path: "/faq", name: "FAQ", element: AddFaq },
   { path: "/banner", name: "Banner", element: Banner },
-
-  // HOME CMS ROUTES
+  { path: "/banners", name: "Banner", element: BannerList },
   { path: "/how-it-works-cms", name: "HowItWorks", element: HowItWorksList },
   { path: "/how-it-works-form", name: "HowItWorks", element: HowItWorksForm },
   { path: "/testimonial-cms", name: "Testimonials", element: Testimonials },

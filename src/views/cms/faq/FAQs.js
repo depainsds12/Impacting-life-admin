@@ -35,7 +35,7 @@ const FAQs = () => {
   useEffect(() => {
     if (faqId) {
       const fetchFAQ = async () => {
-        const url = `${getBaseURL()}/faqs/${faqId}`
+        const url = `${getBaseURL()}/cms/faqs/${faqId}`
         const token = getHeaders().token
         try {
           const response = await getAxios().get(url, {
@@ -78,7 +78,7 @@ const FAQs = () => {
     }
 
     try {
-      const url = faqId ? `${getBaseURL()}/faqs/${faqId}` : `${getBaseURL()}/faqs`
+      const url = faqId ? `${getBaseURL()}/cms/faqs/${faqId}` : `${getBaseURL()}/cms/faqs`
       const method = faqId ? "put" : "post"
 
       const response = await getAxios()[method](url, faq, {

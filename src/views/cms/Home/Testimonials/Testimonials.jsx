@@ -33,7 +33,7 @@ const Testimonials = () => {
   const navigate = useNavigate()
 
   const fetchData = async () => {
-    const url = `${getBaseURL()}/testimonials`
+    const url = `${getBaseURL()}/cms/testimonials`
     const token = getHeaders().token
     try {
       const response = await getAxios().get(url, {
@@ -56,7 +56,7 @@ const Testimonials = () => {
   }
 
   const onDelete = async () => {
-    const url = `${getBaseURL()}/testimonials/${deleteID}`
+    const url = `${getBaseURL()}/cms/testimonials/${deleteID}`
     const token = getHeaders().token
     try {
       const response = await getAxios().delete(url, {

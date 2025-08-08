@@ -5,7 +5,6 @@ import {
     CCardBody,
     CCardHeader,
     CCol,
-    CFormInput,
     CModal,
     CModalBody,
     CModalFooter,
@@ -16,24 +15,25 @@ import {
     CTableHead,
     CTableHeaderCell,
     CTableRow,
+    CImage,
 } from "@coreui/react"
 import { getAxios, getBaseURL, getHeaders } from "../../../api/config"
 import CustomToast from "../../../components/CustomToast/CustomToast"
-import del from "src/assets/brand/delete.png"
-import edit from "src/assets/brand/edit.png"
+import del from "../../../assets/brand/delete.png"
+import edit from "../../../assets/brand/edit.png"
 import { useNavigate } from "react-router-dom"
 
-const FAQList = () => {
-    const [faqs, setFaqs] = useState([])
-    const [toastFlag, settoastFlag] = useState(false)
-    const [toastMessage, settoastMessage] = useState("")
-    const [toastColor, settoastColor] = useState("")
+const CTAList = () => {
+    const [items, setItems] = useState([])
+    const [toastFlag, setToastFlag] = useState(false)
+    const [toastMessage, setToastMessage] = useState("")
+    const [toastColor, setToastColor] = useState("")
     const [deleteID, setDeleteID] = useState("")
     const [visible, setVisible] = useState(false)
     const navigate = useNavigate()
 
     const fetchData = async () => {
-        const url = `${getBaseURL()}/cms/faqs`
+        const url = `${getBaseURL()}/cms/cta`
         const token = getHeaders().token
         try {
             const response = await getAxios().get(url, {
@@ -41,12 +41,12 @@ const FAQList = () => {
                     Authorization: `Bearer ${token}`,
                 },
             })
-            setFaqs(response?.data || [])
+            setItems(response?.data || [])
         } catch (err) {
-            settoastFlag(true)
-            settoastMessage("Error fetching FAQs")
-            settoastColor("danger")
-            setTimeout(() => settoastFlag(false), 2000)
+            setToastFlag(true)
+            setToastMessage("Error fetching CTA data")
+            setToastColor("danger")
+            setTimeout(() => setToastFlag(false), 2000)
         }
     }
 
@@ -56,7 +56,7 @@ const FAQList = () => {
     }
 
     const onDelete = async () => {
-        const url = `${getBaseURL()}/cms/faqs/${deleteID}`
+        const url = `${getBaseURL()}/cms/cta/${deleteID}`
         const token = getHeaders().token
         try {
             const response = await getAxios().delete(url, {
@@ -67,17 +67,17 @@ const FAQList = () => {
             if (response.status === 200) {
                 setVisible(false)
                 fetchData()
-                settoastFlag(true)
-                settoastMessage("FAQ Deleted Successfully")
-                settoastColor("success")
+                setToastFlag(true)
+                setToastMessage("Entry Deleted Successfully")
+                setToastColor("success")
             }
         } catch (error) {
             setVisible(false)
-            settoastFlag(true)
-            settoastMessage("Error deleting FAQ")
-            settoastColor("danger")
+            setToastFlag(true)
+            setToastMessage("Error deleting entry")
+            setToastColor("danger")
         }
-        setTimeout(() => settoastFlag(false), 2000)
+        setTimeout(() => setToastFlag(false), 2000)
     }
 
     useEffect(() => {
@@ -89,40 +89,55 @@ const FAQList = () => {
             <CustomToast
                 message={toastMessage}
                 show={toastFlag}
-                onClose={() => settoastFlag(false)}
+                onClose={() => setToastFlag(false)}
                 color={toastColor}
             />
             <CRow>
                 <CCol xs>
                     <CCard className="mb-4">
                         <CCardHeader style={{ fontWeight: "600", fontSize: "20px" }}>
-                            FAQ List
+                            CTA List
                         </CCardHeader>
                         <CCardBody>
                             <div style={{ display: "flex", justifyContent: "end" }}>
-                                <CButton style={{ backgroundColor: '#50C878' }} onClick={() => navigate("/faq")} className="my-2" type="#50C878">
-                                    Add FAQ
+                                <CButton style={{ backgroundColor: '#50C878' }} onClick={() => navigate("/cta-form")} className="my-2">
+                                    Add CTA
                                 </CButton>
                             </div>
                             <CTable align="middle" className="mb-0 border" hover responsive>
                                 <CTableHead className="text-nowrap">
                                     <CTableRow>
                                         <CTableHeaderCell className="bg-body-tertiary">Sr.no</CTableHeaderCell>
-                                        <CTableHeaderCell className="bg-body-tertiary">Question</CTableHeaderCell>
-                                        <CTableHeaderCell className="bg-body-tertiary">Answer</CTableHeaderCell>
+                                        <CTableHeaderCell className="bg-body-tertiary">Image</CTableHeaderCell>
+                                        <CTableHeaderCell className="bg-body-tertiary">Title</CTableHeaderCell>
+                                        <CTableHeaderCell className="bg-body-tertiary">Pages</CTableHeaderCell>
+                                        <CTableHeaderCell className="bg-body-tertiary">Description</CTableHeaderCell>
+                                        <CTableHeaderCell className="bg-body-tertiary">Links</CTableHeaderCell>
                                         <CTableHeaderCell className="bg-body-tertiary">Action</CTableHeaderCell>
                                     </CTableRow>
                                 </CTableHead>
                                 <CTableBody>
-                                    {faqs.length > 0 ? (
-                                        faqs.map((faq, index) => (
-                                            <CTableRow key={faq._id}>
+                                    {items.length > 0 ? (
+                                        items.map((item, index) => (
+                                            <CTableRow key={item._id}>
+                                                <CTableDataCell>{index + 1}</CTableDataCell>
                                                 <CTableDataCell>
-                                                    {index + 1}
+                                                    <CImage src={item.image} width={60} height={60} style={{ objectFit: 'cover' }} />
                                                 </CTableDataCell>
-                                                <CTableDataCell>{faq.question}</CTableDataCell>
+                                                <CTableDataCell>{item.title}</CTableDataCell>
                                                 <CTableDataCell>
-                                                    <div dangerouslySetInnerHTML={{ __html: faq.answer }} />
+                                                    {item.slug?.join(", ")}
+                                                </CTableDataCell>
+                                                <CTableDataCell>
+                                                    <div style={{ maxWidth: "250px", whiteSpace: "pre-wrap" }}>
+                                                        {item.description}
+                                                    </div>
+                                                </CTableDataCell>
+                                                <CTableDataCell>
+                                                    <div>
+                                                        {item.link1 && <div>Link 1: {item.link1}</div>}
+                                                        {item.link2 && <div>Link 2: {item.link2}</div>}
+                                                    </div>
                                                 </CTableDataCell>
                                                 <CTableDataCell>
                                                     <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
@@ -130,14 +145,14 @@ const FAQList = () => {
                                                             src={edit}
                                                             alt="Edit icon"
                                                             title="Edit"
-                                                            onClick={() => navigate("/faq", { state: { id: faq._id } })}
+                                                            onClick={() => navigate("/cta-form", { state: { id: item._id } })}
                                                             style={{ cursor: "pointer", width: "20px" }}
                                                         />
                                                         <img
                                                             src={del}
                                                             alt="Delete icon"
                                                             title="Delete"
-                                                            onClick={() => onDeleteGetID(faq._id)}
+                                                            onClick={() => onDeleteGetID(item._id)}
                                                             style={{ cursor: "pointer", width: "20px" }}
                                                         />
                                                     </div>
@@ -146,8 +161,8 @@ const FAQList = () => {
                                         ))
                                     ) : (
                                         <CTableRow>
-                                            <CTableDataCell colSpan="4" className="text-center">
-                                                No FAQs Found
+                                            <CTableDataCell colSpan="7" className="text-center">
+                                                No Data Found
                                             </CTableDataCell>
                                         </CTableRow>
                                     )}
@@ -159,7 +174,7 @@ const FAQList = () => {
             </CRow>
 
             <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>
-                <CModalBody>Are you sure you want to delete this FAQ?</CModalBody>
+                <CModalBody>Are you sure you want to delete this entry?</CModalBody>
                 <CModalFooter>
                     <CButton color="secondary" onClick={() => setVisible(false)}>
                         No
@@ -173,4 +188,4 @@ const FAQList = () => {
     )
 }
 
-export default FAQList
+export default CTAList

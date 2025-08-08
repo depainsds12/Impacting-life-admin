@@ -1,6 +1,8 @@
 import React from "react"
 import CIcon from "@coreui/icons-react"
 import {
+  cilApplications,
+  cilBriefcase,
   cilHome,
   cilPuzzle,
   cilUser,
@@ -23,16 +25,30 @@ const _nav = [
     name: "CMS",
   },
   {
+
+    component: CNavGroup,
+    name: "Common CMS",
+    // to: "/base",
+    icon: <CIcon icon={cilApplications} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: "Banner",
+        to: "/banners",
+      },
+      {
+        component: CNavItem,
+        name: "CTA",
+        to: "/cta",
+      },
+    ]
+  },
+  {
     component: CNavGroup,
     name: "Home",
     // to: "/base",
     icon: <CIcon icon={cilHome} customClassName="nav-icon" />,
     items: [
-      {
-        component: CNavItem,
-        name: "Banner",
-        to: "/banner",
-      },
       {
         component: CNavItem,
         name: "How It Works",
@@ -51,6 +67,20 @@ const _nav = [
     ],
   },
   {
+
+    component: CNavGroup,
+    name: "For Business",
+    // to: "/base",
+    icon: <CIcon icon={cilBriefcase} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: "Why Choose Impacting Life",
+        to: "/why-choose-impacting-life",
+      },
+    ]
+  },
+  {
     component: CNavGroup,
     name: "Footer",
     // to: "/base",
@@ -58,14 +88,19 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: "Privacy and Policy",
-        to: "/privacy-policy",
+        name: "Footer",
+        to: "/footer",
       },
-      {
-        component: CNavItem,
-        name: "Terms&Conditions",
-        to: "/terms-conditions",
-      }
+      // {
+      //   component: CNavItem,
+      //   name: "Privacy and Policy",
+      //   to: "/privacy-policy",
+      // },
+      // {
+      //   component: CNavItem,
+      //   name: "Terms&Conditions",
+      //   to: "/terms-conditions",
+      // }
     ],
   },
 ]

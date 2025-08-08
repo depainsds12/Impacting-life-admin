@@ -3,6 +3,7 @@
   "version": "5.0.0",
   "description": "Impacting Life",
   "author": "SDS Team",
+  "homepage": "/admin",
   "scripts": {
     "build": "vite build",
     "lint": "eslint \"src/**/*.js\"",

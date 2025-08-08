@@ -1,5 +1,3 @@
-import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document"
-import { CKEditor } from "@ckeditor/ckeditor5-react"
 import {
   CButton,
   CCard,
@@ -8,6 +6,7 @@ import {
   CCol,
   CFormInput,
   CFormLabel,
+  CFormTextarea,
   CRow,
   CSpinner,
 } from "@coreui/react"
@@ -131,24 +130,13 @@ const FAQs = () => {
               </div>
               <div className="mb-3">
                 <CFormLabel className="fw-bold fs-7">Answer</CFormLabel>
-                <div id="toolbar-container1"></div>
-                <CKEditor
-                  editor={DecoupledEditor}
-                  data={faq.answer}
-                  onReady={(editor) => {
-                    const toolbarContainer = document.querySelector("#toolbar-container1")
-                    if (toolbarContainer && editor.ui.view.toolbar.element) {
-                      toolbarContainer.innerHTML = "" // clear old toolbar
-                      toolbarContainer.appendChild(editor.ui.view.toolbar.element)
-                    }
-                  }}
-                  onChange={(event, editor) => {
-                    const data = editor.getData()
-                    setFaq((prev) => ({
-                      ...prev,
-                      answer: data,
-                    }))
-                  }}
+                <CFormTextarea
+                  component="textarea"
+                  rows={5}
+                  placeholder="Enter Answer"
+                  value={faq.answer}
+                  name="answer"
+                  onChange={handleInputChange}
                 />
               </div>
 

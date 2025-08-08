@@ -36,7 +36,7 @@ const App = () => {
   }, [])
 
   return (
-    <Router>
+    <Router basename="/admin">
       <Suspense
         fallback={
           <div className="pt-3 text-center">

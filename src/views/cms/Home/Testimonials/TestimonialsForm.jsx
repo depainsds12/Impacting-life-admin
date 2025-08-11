@@ -104,7 +104,7 @@ const TestimonialsForm = () => {
       (!item.image && !item.imageFile)
     ) {
       setToastFlag(true);
-      setToastMessage("Please fill all fields and upload an image");
+      setToastMessage("Please fill all fields");
       setToastColor("warning");
       setTimeout(() => setToastFlag(false), 2000);
       setButtonLoading(false);

@@ -5,12 +5,12 @@ import {
   CCardBody,
   CCardHeader,
   CCol,
+  CFormLabel,
   CModal,
   CModalBody,
   CModalFooter,
   CRow,
   CTable,
-  CTableBody,
   CTableDataCell,
   CTableHead,
   CTableHeaderCell,
@@ -22,6 +22,7 @@ import CustomToast from "../../../../components/CustomToast/CustomToast"
 import del from "../../../../assets/brand/delete.png"
 import edit from "../../../../assets/brand/edit.png"
 import { useNavigate } from "react-router-dom"
+import { ReactSortable } from "react-sortablejs"
 
 const Testimonials = () => {
   const [items, setItems] = useState([])
@@ -84,6 +85,43 @@ const Testimonials = () => {
     fetchData()
   }, [])
 
+  const updateTestimonialsOrder = async (order) => {
+    const { oldIndex, newIndex } = order;
+
+    if (oldIndex === newIndex) {
+        return;
+    }
+
+    const updatedList = [...items];
+    const [movedTag] = updatedList.splice(oldIndex, 1);
+    updatedList.splice(newIndex, 0, movedTag);
+
+    const updatedListWithPositions = updatedList.map((item, index) => ({
+        ...item,
+        order: index + 1,
+    }));
+    setItems(updatedListWithPositions);
+
+    try {
+        const token = getHeaders().token;
+        const url = `${getBaseURL()}/cms/order-testimonials`;
+        await getAxios().post(url, { orders: updatedListWithPositions }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        // if (response.status === 200) {
+        //     toast.success("FAQs reordered successfully");
+        // } else {
+        //     toast.error("Failed to reorder FAQs");
+        // }
+    } catch (error) {
+        // console.error("Error updating FAQs order:", error);
+        // toast.error("Failed to reorder FAQs");
+    }
+};
+
   return (
     <>
       <CustomToast
@@ -99,7 +137,8 @@ const Testimonials = () => {
               Testimonials List
             </CCardHeader>
             <CCardBody>
-              <div style={{ display: "flex", justifyContent: "end" }}>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <CFormLabel style={{ fontWeight: 'bold' }}>Drag and drop the testimonials to update the order</CFormLabel>
                 <CButton
                   style={{ backgroundColor: "#50C878" }}
                   onClick={() => navigate("/testimonial-form")}
@@ -121,10 +160,16 @@ const Testimonials = () => {
                     <CTableHeaderCell className="bg-body-tertiary">Action</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
-                <CTableBody>
+                <ReactSortable
+                  list={items}
+                  setList={setItems}
+                  onEnd={(newList) => updateTestimonialsOrder(newList)}
+                  animation={150}
+                  tag="tbody"
+                >
                   {items.length > 0 ? (
                     items.map((item, index) => (
-                      <CTableRow key={item._id}>
+                      <CTableRow key={item._id} data-id={item._id}>
                         <CTableDataCell>{index + 1}</CTableDataCell>
                         <CTableDataCell>
                           <CImage
@@ -168,7 +213,7 @@ const Testimonials = () => {
                       </CTableDataCell>
                     </CTableRow>
                   )}
-                </CTableBody>
+                </ReactSortable>
               </CTable>
             </CCardBody>
           </CCard>

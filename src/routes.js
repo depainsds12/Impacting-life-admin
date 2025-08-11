@@ -17,7 +17,8 @@ const TestimonialsForm = React.lazy(
 const CTAList = React.lazy(() => import("./views/cms/cta/CTAList"))
 const CTAForm = React.lazy(() => import("./views/cms/cta/CTAForm"))
 const FooterCmsForm = React.lazy(() => import("./views/cms/footer/FooterCms"))
-
+const Announcement = React.lazy(() => import("./views/cms/announcement/Announcement"))
+const PopularCourses = React.lazy(() => import("./views/cms/Home/Courses/PopularCourses"))
 const WhyChooseForm = React.lazy(() => import("./views/cms/business/WhyChooseForm"))
 
 
@@ -82,6 +83,7 @@ const routes = [
   { path: "/cta", name: "Testimonials", element: CTAList },
   { path: "/cta-form", name: "CTA", element: CTAForm },
   { path: "/footer", name: "Footer", element: FooterCmsForm },
+  { path: "/announcements", name: "Announcements", element: Announcement },
 
   { path: "/why-choose-impacting-life", name: "Why Choose Impacting Life", element: WhyChooseForm },
 
@@ -95,7 +97,7 @@ const routes = [
   { path: "/how-it-works-form", name: "HowItWorks", element: HowItWorksForm },
   { path: "/testimonial-cms", name: "Testimonials", element: Testimonials },
   { path: "/testimonial-form", name: "TestimonialsForm", element: TestimonialsForm },
-
+  { path: "/popular-courses", name: "Popular Courses", element: PopularCourses },
   { path: "/change-password", name: "ChangePassword", element: changePassword },
 
 

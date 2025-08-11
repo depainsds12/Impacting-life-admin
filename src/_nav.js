@@ -33,6 +33,11 @@ const _nav = [
     items: [
       {
         component: CNavItem,
+        name: "Announcements",
+        to: "/announcements",
+      },
+      {
+        component: CNavItem,
         name: "Banner",
         to: "/banners",
       },
@@ -49,6 +54,11 @@ const _nav = [
     // to: "/base",
     icon: <CIcon icon={cilHome} customClassName="nav-icon" />,
     items: [
+      {
+        component: CNavItem,
+        name: "Popular Courses",
+        to: "/popular-courses",
+      },
       {
         component: CNavItem,
         name: "How It Works",

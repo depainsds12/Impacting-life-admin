@@ -5,13 +5,12 @@ import {
     CCardBody,
     CCardHeader,
     CCol,
-    CFormInput,
+    CFormLabel,
     CModal,
     CModalBody,
     CModalFooter,
     CRow,
     CTable,
-    CTableBody,
     CTableDataCell,
     CTableHead,
     CTableHeaderCell,
@@ -22,6 +21,7 @@ import CustomToast from "../../../components/CustomToast/CustomToast"
 import del from "src/assets/brand/delete.png"
 import edit from "src/assets/brand/edit.png"
 import { useNavigate } from "react-router-dom"
+import { ReactSortable } from "react-sortablejs"
 
 const FAQList = () => {
     const [faqs, setFaqs] = useState([])
@@ -37,17 +37,21 @@ const FAQList = () => {
         const token = getHeaders().token
         try {
             const response = await getAxios().get(url, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                headers: { Authorization: `Bearer ${token}` },
             })
-            setFaqs(response?.data || [])
+            // sort by order before setting
+            const sortedFaqs = (response?.data || []).sort((a, b) => a.order - b.order)
+            setFaqs(sortedFaqs)
         } catch (err) {
-            settoastFlag(true)
-            settoastMessage("Error fetching FAQs")
-            settoastColor("danger")
-            setTimeout(() => settoastFlag(false), 2000)
+            showToast("Error fetching FAQs", "danger")
         }
+    }
+
+    const showToast = (msg, color) => {
+        settoastFlag(true)
+        settoastMessage(msg)
+        settoastColor(color)
+        setTimeout(() => settoastFlag(false), 2000)
     }
 
     const onDeleteGetID = (_id) => {
@@ -60,25 +64,55 @@ const FAQList = () => {
         const token = getHeaders().token
         try {
             const response = await getAxios().delete(url, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                headers: { Authorization: `Bearer ${token}` },
             })
             if (response.status === 200) {
                 setVisible(false)
                 fetchData()
-                settoastFlag(true)
-                settoastMessage("FAQ Deleted Successfully")
-                settoastColor("success")
+                showToast("FAQ Deleted Successfully", "success")
             }
         } catch (error) {
             setVisible(false)
-            settoastFlag(true)
-            settoastMessage("Error deleting FAQ")
-            settoastColor("danger")
+            showToast("Error deleting FAQ", "danger")
         }
-        setTimeout(() => settoastFlag(false), 2000)
     }
+
+    const updateFAQOrder = async (order) => {
+        const { oldIndex, newIndex } = order;
+
+        if (oldIndex === newIndex) {
+            return;
+        }
+
+        const updatedFaqs = [...faqs];
+        const [movedTag] = updatedFaqs.splice(oldIndex, 1);
+        updatedFaqs.splice(newIndex, 0, movedTag);
+
+        const updatedFaqsWithPositions = updatedFaqs.map((item, index) => ({
+            ...item,
+            order: index + 1,
+        }));
+        setFaqs(updatedFaqsWithPositions);
+
+        try {
+            const token = getHeaders().token;
+            const url = `${getBaseURL()}/cms/order-faqs`; // new API endpoint
+            const response = await getAxios().post(url, { orders: updatedFaqsWithPositions }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response.status === 200) {
+                toast.success("FAQs reordered successfully");
+            } else {
+                toast.error("Failed to reorder FAQs");
+            }
+        } catch (error) {
+            console.error("Error updating FAQs order:", error);
+            toast.error("Failed to reorder FAQs");
+        }
+    };
 
     useEffect(() => {
         fetchData()
@@ -99,27 +133,38 @@ const FAQList = () => {
                             FAQ List
                         </CCardHeader>
                         <CCardBody>
-                            <div style={{ display: "flex", justifyContent: "end" }}>
-                                <CButton style={{ backgroundColor: '#50C878' }} onClick={() => navigate("/faq")} className="my-2" type="#50C878">
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: 'center' }}>
+                                <CFormLabel style={{ fontWeight: 'bold' }}>Drag and drop the FAQs to update the order</CFormLabel>
+                                <CButton
+                                    style={{ backgroundColor: "#50C878" }}
+                                    onClick={() => navigate("/faq")}
+                                    className="my-2"
+                                >
                                     Add FAQ
                                 </CButton>
                             </div>
+
                             <CTable align="middle" className="mb-0 border" hover responsive>
                                 <CTableHead className="text-nowrap">
                                     <CTableRow>
-                                        <CTableHeaderCell className="bg-body-tertiary">Sr.no</CTableHeaderCell>
-                                        <CTableHeaderCell className="bg-body-tertiary">Question</CTableHeaderCell>
-                                        <CTableHeaderCell className="bg-body-tertiary">Answer</CTableHeaderCell>
-                                        <CTableHeaderCell className="bg-body-tertiary">Action</CTableHeaderCell>
+                                        <CTableHeaderCell>Sr.no</CTableHeaderCell>
+                                        <CTableHeaderCell>Question</CTableHeaderCell>
+                                        <CTableHeaderCell>Answer</CTableHeaderCell>
+                                        <CTableHeaderCell>Action</CTableHeaderCell>
                                     </CTableRow>
                                 </CTableHead>
-                                <CTableBody>
+                                <ReactSortable
+                                    list={faqs}
+                                    setList={setFaqs}
+                                    onEnd={(newList) => updateFAQOrder(newList)}
+                                    animation={150}
+                                    tag="tbody"
+
+                                >
                                     {faqs.length > 0 ? (
                                         faqs.map((faq, index) => (
-                                            <CTableRow key={faq._id}>
-                                                <CTableDataCell>
-                                                    {index + 1}
-                                                </CTableDataCell>
+                                            <CTableRow key={faq._id} data-id={faq._id}>
+                                                <CTableDataCell>{index + 1}</CTableDataCell>
                                                 <CTableDataCell>{faq.question}</CTableDataCell>
                                                 <CTableDataCell>
                                                     <div dangerouslySetInnerHTML={{ __html: faq.answer }} />
@@ -151,7 +196,7 @@ const FAQList = () => {
                                             </CTableDataCell>
                                         </CTableRow>
                                     )}
-                                </CTableBody>
+                                </ReactSortable>
                             </CTable>
                         </CCardBody>
                     </CCard>
@@ -161,12 +206,8 @@ const FAQList = () => {
             <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>
                 <CModalBody>Are you sure you want to delete this FAQ?</CModalBody>
                 <CModalFooter>
-                    <CButton color="secondary" onClick={() => setVisible(false)}>
-                        No
-                    </CButton>
-                    <CButton color="primary" onClick={onDelete}>
-                        Yes
-                    </CButton>
+                    <CButton color="secondary" onClick={() => setVisible(false)}>No</CButton>
+                    <CButton color="primary" onClick={onDelete}>Yes</CButton>
                 </CModalFooter>
             </CModal>
         </>

@@ -15,7 +15,7 @@ import {
 } from "@coreui/react"
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import logo from "src/assets/brand/logo.svg"
+import logo from "src/assets/brand/logo.png"
 import eyeClose from "src/assets/brand/eye-close.png"
 import eyeOpen from "src/assets/brand/eye-open.png"
 import { getAxios, getBaseURL } from "../../../api/config"

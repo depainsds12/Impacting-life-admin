@@ -111,9 +111,9 @@ const Banner = () => {
                     "Content-Type": "multipart/form-data",
                 },
             });
-            if (response.status === 200) {
+            if (response.status == 200 || response.status == 201) {
                 setToastFlag(true);
-                setToastMessage("Banner updated successfully");
+                setToastMessage(`Banner ${itemId ? "updated" : "created"} successfully`);
                 setToastColor("success");
                 setTimeout(() => setToastFlag(false), 2000);
                 setTimeout(() => navigate('/banners'), 3000);
@@ -162,7 +162,7 @@ const Banner = () => {
                             <div className="mb-3">
                                 <CFormLabel>Select Pages</CFormLabel>
                                 <div className="d-flex flex-wrap gap-3">
-                                    {['home', 'for business', 'course details'].map((s) => (
+                                    {['home', 'for business'].map((s) => (
                                         <CFormCheck
                                             key={s}
                                             type="checkbox"

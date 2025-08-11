@@ -15,6 +15,7 @@ import React, { useEffect, useState } from "react"
 import { getAxios, getBaseURL, getHeaders } from "../../../api/config"
 import CustomToast from "../../../components/CustomToast/CustomToast"
 import { useLocation, useNavigate } from "react-router-dom"
+import { MAX_IMAGE_SIZE_BYTES, MAX_IMAGE_SIZE_MB } from "../../../utils/constants"
 
 const Banner = () => {
     const [title, setTitle] = useState("")
@@ -78,21 +79,30 @@ const Banner = () => {
 
     // Submit handler
     const onSubmit = async () => {
-        setButtonLoading(true)
+        setButtonLoading(true);
+        if (imageFile && imageFile.size > MAX_IMAGE_SIZE_BYTES) {
+            setToastFlag(true);
+            setToastMessage(`Image size should not exceed ${MAX_IMAGE_SIZE_MB} MB`);
+            setToastColor("warning");
+            setTimeout(() => setToastFlag(false), 2000);
+            setButtonLoading(false);
+            return;
+        }
+
         const url = itemId
             ? `${getBaseURL()}/cms/banner/${itemId}`
             : `${getBaseURL()}/cms/banner`;
         const method = itemId ? 'put' : 'post';
 
-        const token = getHeaders().token
+        const token = getHeaders().token;
 
-        const formData = new FormData()
-        formData.append("title", title)
-        formData.append("subtitle", subtitle)
-        formData.append("link", link)
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("subtitle", subtitle);
+        formData.append("link", link);
         slug.forEach((slugValue) => formData.append('slug[]', slugValue));
-        formData.append("description", description)
-        if (imageFile) formData.append("image", imageFile)
+        formData.append("description", description);
+        if (imageFile) formData.append("image", imageFile);
 
         try {
             const response = await getAxios()[method](url, formData, {
@@ -100,25 +110,26 @@ const Banner = () => {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "multipart/form-data",
                 },
-            })
+            });
             if (response.status === 200) {
-                setToastFlag(true)
-                setToastMessage("Banner updated successfully")
-                setToastColor("success")
-                setTimeout(() => setToastFlag(false), 2000)
+                setToastFlag(true);
+                setToastMessage("Banner updated successfully");
+                setToastColor("success");
+                setTimeout(() => setToastFlag(false), 2000);
                 setTimeout(() => navigate('/banners'), 3000);
             } else {
-                throw new Error()
+                throw new Error();
             }
         } catch (error) {
-            setToastFlag(true)
-            setToastMessage("Error updating banner")
-            setToastColor("danger")
-            setTimeout(() => setToastFlag(false), 2000)
+            setToastFlag(true);
+            setToastMessage(error?.response?.data?.message || error?.message || "Error updating banner");
+            setToastColor("danger");
+            setTimeout(() => setToastFlag(false), 2000);
         } finally {
-            setButtonLoading(false)
+            setButtonLoading(false);
         }
-    }
+    };
+
 
     const handleCheckboxChange = (e) => {
         const { value, checked } = e.target;

@@ -15,6 +15,7 @@ import React, { useState, useEffect } from "react"
 import { getAxios, getBaseURL, getHeaders } from "../../../../api/config"
 import CustomToast from "../../../../components/CustomToast/CustomToast"
 import { useNavigate, useLocation } from "react-router-dom"
+import { MAX_IMAGE_SIZE_BYTES, MAX_IMAGE_SIZE_MB } from "../../../../utils/constants"
 
 const TestimonialsForm = () => {
   const navigate = useNavigate()
@@ -90,9 +91,10 @@ const TestimonialsForm = () => {
   }
 
   const onSubmit = async () => {
-    setButtonLoading(true)
-    const token = getHeaders().token
-
+    setButtonLoading(true);
+    const token = getHeaders().token;
+  
+    // Empty field validation
     if (
       !item.name ||
       !item.designation ||
@@ -101,38 +103,49 @@ const TestimonialsForm = () => {
       !item.description ||
       (!item.image && !item.imageFile)
     ) {
-      setToastFlag(true)
-      setToastMessage("Please fill all fields and upload an image")
-      setToastColor("warning")
-      setTimeout(() => setToastFlag(false), 2000)
-      setButtonLoading(false)
-      return
+      setToastFlag(true);
+      setToastMessage("Please fill all fields and upload an image");
+      setToastColor("warning");
+      setTimeout(() => setToastFlag(false), 2000);
+      setButtonLoading(false);
+      return;
     }
-
+  
+    // Image size validation
+    if (item.imageFile && item.imageFile.size > MAX_IMAGE_SIZE_BYTES) {
+      setToastFlag(true);
+      setToastMessage(`Image size should not exceed ${MAX_IMAGE_SIZE_MB} MB`);
+      setToastColor("warning");
+      setTimeout(() => setToastFlag(false), 2000);
+      setButtonLoading(false);
+      return;
+    }
+  
     try {
       const url = itemId
         ? `${getBaseURL()}/cms/testimonials/${itemId}`
-        : `${getBaseURL()}/cms/testimonials`
-      const method = itemId ? "put" : "post"
-      const formData = new FormData()
-      formData.append("name", item.name)
-      formData.append("designation", item.designation)
-      formData.append("ratings", item.ratings)
-      formData.append("experience", item.experience)
-      formData.append("description", item.description)
-      if (item.imageFile) formData.append("image", item.imageFile)
-
+        : `${getBaseURL()}/cms/testimonials`;
+      const method = itemId ? "put" : "post";
+  
+      const formData = new FormData();
+      formData.append("name", item.name);
+      formData.append("designation", item.designation);
+      formData.append("ratings", item.ratings);
+      formData.append("experience", item.experience);
+      formData.append("description", item.description);
+      if (item.imageFile) formData.append("image", item.imageFile);
+  
       const response = await getAxios()[method](url, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
-      })
-
+      });
+  
       if (response.status === 200 || response.status === 201) {
-        setToastFlag(true)
-        setToastMessage(itemId ? "Testimonial Updated Successfully" : "Testimonial Added Successfully")
-        setToastColor("success")
+        setToastFlag(true);
+        setToastMessage(itemId ? "Testimonial Updated Successfully" : "Testimonial Added Successfully");
+        setToastColor("success");
         setItem({
           name: "",
           designation: "",
@@ -141,19 +154,20 @@ const TestimonialsForm = () => {
           description: "",
           image: "",
           imageFile: null,
-        })
-        setTimeout(() => navigate("/testimonial-cms"), 3500)
+        });
+        setTimeout(() => navigate("/testimonial-cms"), 3500);
       } else {
-        throw new Error("Unexpected response")
+        throw new Error("Unexpected response");
       }
     } catch (error) {
-      setToastFlag(true)
-      setToastMessage("Error saving testimonial")
-      setToastColor("danger")
+      setToastFlag(true);
+      setToastMessage(error?.response?.data?.message || error?.message || "Error saving testimonial");
+      setToastColor("danger");
     }
-    setTimeout(() => setToastFlag(false), 2000)
-    setButtonLoading(false)
-  }
+  
+    setTimeout(() => setToastFlag(false), 2000);
+    setButtonLoading(false);
+  };
 
   return (
     <>

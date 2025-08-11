@@ -17,6 +17,7 @@ import {
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getAxios, getBaseURL, getHeaders } from '../../../api/config';
 import CustomToast from '../../../components/CustomToast/CustomToast';
+import { MAX_IMAGE_SIZE_BYTES, MAX_IMAGE_SIZE_MB } from '../../../utils/constants';
 
 const CTAManagement = () => {
   const [formData, setFormData] = useState({
@@ -116,6 +117,15 @@ const CTAManagement = () => {
       return;
     }
 
+    if (formData.imageFile && formData.imageFile.size > MAX_IMAGE_SIZE_BYTES) {
+      setToastFlag(true);
+      setToastMessage(`Image size should not exceed ${MAX_IMAGE_SIZE_MB} MB`);
+      setToastColor('warning');
+      setTimeout(() => setToastFlag(false), 2500);
+      setButtonLoading(false);
+      return;
+    }
+
     try {
       const url = itemId
         ? `${getBaseURL()}/cms/cta/${itemId}`
@@ -158,7 +168,7 @@ const CTAManagement = () => {
       }
     } catch (error) {
       setToastFlag(true);
-      setToastMessage('Error saving CTA');
+      setToastMessage(error?.response?.data?.message || error?.message || 'Error saving CTA');
       setToastColor('danger');
     }
 

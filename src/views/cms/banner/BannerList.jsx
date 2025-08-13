@@ -100,7 +100,7 @@ const BannerList = () => {
                         </CCardHeader>
                         <CCardBody>
                             <div style={{ display: "flex", justifyContent: "end" }}>
-                                <CButton style={{ backgroundColor: '#50C878' }} onClick={() => navigate("/banner")} className="my-2">
+                                <CButton color="primary" onClick={() => navigate("/banner")} className="my-2">
                                     Add Banner
                                 </CButton>
                             </div>

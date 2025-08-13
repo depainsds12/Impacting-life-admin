@@ -141,7 +141,7 @@ const FAQs = () => {
               </div>
 
               <CButton
-                style={{ backgroundColor: "#50C878" }}
+                color="primary"
                 onClick={onSubmit}
                 disabled={buttonLoading}
               >

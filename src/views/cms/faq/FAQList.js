@@ -136,7 +136,7 @@ const FAQList = () => {
                             <div style={{ display: "flex", justifyContent: "space-between", alignItems: 'center' }}>
                                 <CFormLabel style={{ fontWeight: 'bold' }}>Drag and drop the FAQs to update the order</CFormLabel>
                                 <CButton
-                                    style={{ backgroundColor: "#50C878" }}
+                                    color="primary"
                                     onClick={() => navigate("/faq")}
                                     className="my-2"
                                 >

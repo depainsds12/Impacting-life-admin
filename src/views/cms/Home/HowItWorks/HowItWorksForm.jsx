@@ -133,7 +133,7 @@ const HowItWorksForm = () => {
         setToastMessage(itemId ? "Entry Updated Successfully" : "Entry Submitted Successfully");
         setToastColor("success");
         setItem({ title: "", description: "", image: "", imageFile: null });
-        setTimeout(() => navigate("/how-it-works-cms"), 3000);
+        navigate("/how-it-works-cms")
       } else {
         throw new Error("Unexpected response");
       }
@@ -201,7 +201,7 @@ const HowItWorksForm = () => {
                 )}
               </div>
               <CButton
-                style={{ backgroundColor: "#50C878" }}
+                color="primary"
                 onClick={onSubmit}
                 disabled={buttonLoading}
               >

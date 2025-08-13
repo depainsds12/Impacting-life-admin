@@ -165,7 +165,7 @@ const FooterCmsForm = () => {
                                             </CCol>
                                         </CRow>
                                     ))}
-                                    <CButton style={{ backgroundColor: "#50C878", color: "white" }} onClick={() => addItem(key)}>+ Add {label} Item</CButton>
+                                    <CButton color="primary" style={{ color: "white" }} onClick={() => addItem(key)}>+ Add {label} Item</CButton>
                                 </div>
                             ))}
 

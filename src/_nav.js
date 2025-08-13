@@ -21,6 +21,39 @@ const _nav = [
   //   icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   // },
   {
+
+    component: CNavGroup,
+    name: "Course Management",
+    icon: <CIcon icon={cilApplications} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: "Courses",
+        to: "/course-list",
+      },
+      {
+        component: CNavItem,
+        name: "Badges",
+        to: "/badges",
+      },
+      {
+        component: CNavItem,
+        name: "Categories",
+        to: "/categories",
+      },
+      {
+        component: CNavItem,
+        name: "Learning Methods",
+        to: "/learning-methods",
+      },
+      {
+        component: CNavItem,
+        name: "Course Includes",
+        to: "/course-includes",
+      }
+    ]
+  },
+  {
     component: CNavTitle,
     name: "CMS",
   },
@@ -85,7 +118,7 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: "Why Choose Impacting Life",
+        name: "Why To Choose",
         to: "/why-choose-impacting-life",
       },
     ]

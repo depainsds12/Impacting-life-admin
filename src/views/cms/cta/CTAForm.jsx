@@ -162,7 +162,7 @@ const CTAManagement = () => {
           image: '',
           imageFile: null,
         });
-        setTimeout(() => navigate('/cta'), 3000);
+        navigate('/cta')
       } else {
         throw new Error('Unexpected response');
       }
@@ -271,7 +271,7 @@ const CTAManagement = () => {
                 </div>
 
                 <CButton
-                  style={{ backgroundColor: "#50C878" }}
+                  color="primary"
                   type="submit"
                   disabled={buttonLoading}
                 >

@@ -174,7 +174,7 @@ const WhyChooseCmsForm = () => {
                             ))}
 
 
-                            <CButton className="mb-3" style={{ backgroundColor: "#50C878", color: "white" }} onClick={addOption}>+ Add Option</CButton>
+                            <CButton color="primary" className="mb-3" style={{ color: "white" }} onClick={addOption}>+ Add Option</CButton>
 
                             <h6>Buttons</h6>
                             <CFormInput className="mb-2" placeholder="Button 1 Text"

@@ -168,7 +168,7 @@ const TermsConditions = () => {
               </div>
               <div className="mb-3" style={{ display: "flex", justifyContent: "end" }}>
                 <CButton
-                  style={{ backgroundColor: "#50C878" }}
+                  color="primary"
                   onClick={onSubmit}
                   disabled={buttonLoading}
                 >

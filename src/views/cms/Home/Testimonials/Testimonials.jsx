@@ -140,7 +140,7 @@ const Testimonials = () => {
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <CFormLabel style={{ fontWeight: 'bold' }}>Drag and drop the testimonials to update the order</CFormLabel>
                 <CButton
-                  style={{ backgroundColor: "#50C878" }}
+                  color="primary"
                   onClick={() => navigate("/testimonial-form")}
                   className="my-2"
                 >

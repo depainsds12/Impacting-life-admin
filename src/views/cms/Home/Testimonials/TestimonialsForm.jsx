@@ -155,7 +155,7 @@ const TestimonialsForm = () => {
           image: "",
           imageFile: null,
         });
-        setTimeout(() => navigate("/testimonial-cms"), 3500);
+        navigate("/testimonial-cms")
       } else {
         throw new Error("Unexpected response");
       }
@@ -259,7 +259,7 @@ const TestimonialsForm = () => {
                 )}
               </div>
               <CButton
-                style={{ backgroundColor: "#50C878" }}
+                color="primary"
                 onClick={onSubmit}
                 disabled={buttonLoading}
               >

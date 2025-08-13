@@ -21,6 +21,13 @@ const Announcement = React.lazy(() => import("./views/cms/announcement/Announcem
 const PopularCourses = React.lazy(() => import("./views/cms/Home/Courses/PopularCourses"))
 const WhyChooseForm = React.lazy(() => import("./views/cms/business/WhyChooseForm"))
 
+const BadgeList = React.lazy(() => import("./views/courses/BadgeList"))
+const Categories = React.lazy(() => import("./views/courses/Categories"))
+const Formats = React.lazy(() => import("./views/courses/Formats"))
+const CoursesList = React.lazy(() => import("./views/courses/CourseList"))
+const CourseForm = React.lazy(() => import("./views/courses/CourseForm"))
+const CourseIncludes = React.lazy(() => import("./views/courses/CourseIncludesIcons"))
+
 
 //Chat Page Route
 
@@ -99,6 +106,13 @@ const routes = [
   { path: "/testimonial-form", name: "TestimonialsForm", element: TestimonialsForm },
   { path: "/popular-courses", name: "Popular Courses", element: PopularCourses },
   { path: "/change-password", name: "ChangePassword", element: changePassword },
+
+  { path: "/badges", name: "Badges", element: BadgeList },
+  { path: "/categories", name: "Categories", element: Categories },
+  { path: "/learning-methods", name: "Learning Methods", element: Formats },
+  { path: "/course-list", name: "Courses", element: CoursesList },
+  { path: "/course-form", name: "Courses", element: CourseForm },
+  { path: "/course-includes", name: "Course Includes", element: CourseIncludes },
 
 
 

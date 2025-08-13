@@ -100,7 +100,7 @@ const HowItWorksList = () => {
                         </CCardHeader>
                         <CCardBody>
                             <div style={{ display: "flex", justifyContent: "end" }}>
-                                <CButton style={{ backgroundColor: '#50C878' }} onClick={() => navigate("/how-it-works-form")} className="my-2">
+                                <CButton color="primary" onClick={() => navigate("/how-it-works-form")} className="my-2">
                                     Add How It Works
                                 </CButton>
                             </div>

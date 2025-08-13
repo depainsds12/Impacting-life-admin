@@ -179,7 +179,7 @@ const Resetpassword = () => {
                       <CRow>
                         <CCol xs={12}>
                           <CButton
-                            style={{ backgroundColor: "#50C878" }}
+                            color="primary"
                             className="px-4"
                             onClick={onChangePassword}
                           >

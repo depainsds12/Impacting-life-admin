@@ -116,7 +116,7 @@ const Banner = () => {
                 setToastMessage(`Banner ${itemId ? "updated" : "created"} successfully`);
                 setToastColor("success");
                 setTimeout(() => setToastFlag(false), 2000);
-                setTimeout(() => navigate('/banners'), 3000);
+                navigate('/banners')
             } else {
                 throw new Error();
             }
@@ -246,7 +246,7 @@ const Banner = () => {
                             {/* Submit Button */}
                             <div style={{ display: "flex", justifyContent: "end" }}>
                                 <CButton
-                                    style={{ backgroundColor: "#50C878" }}
+                                    color="primary"
                                     onClick={onSubmit}
                                     disabled={buttonLoading}
                                 >

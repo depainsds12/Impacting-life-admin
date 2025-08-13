@@ -100,7 +100,7 @@ const CTAList = () => {
                         </CCardHeader>
                         <CCardBody>
                             <div style={{ display: "flex", justifyContent: "end" }}>
-                                <CButton style={{ backgroundColor: '#50C878' }} onClick={() => navigate("/cta-form")} className="my-2">
+                                <CButton color="primary" onClick={() => navigate("/cta-form")} className="my-2">
                                     Add CTA
                                 </CButton>
                             </div>

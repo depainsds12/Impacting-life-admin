@@ -100,7 +100,7 @@ import {
                   onChange={(e) => handleChange("description", e.target.value)}
                 />
   
-                <CButton style={{ backgroundColor: "#50C878" }} onClick={onSubmit} disabled={buttonLoading}>
+                <CButton color="primary" onClick={onSubmit} disabled={buttonLoading}>
                   {buttonLoading ? <CSpinner size="sm" /> : "Update"}
                 </CButton>
               </CCardBody>

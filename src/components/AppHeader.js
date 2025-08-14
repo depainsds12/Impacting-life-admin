@@ -1,4 +1,4 @@
-import { cilBell, cilContrast, cilMenu, cilMoon, cilSun } from "@coreui/icons"
+import { cilContrast, cilMenu, cilMoon, cilSun } from "@coreui/icons"
 import CIcon from "@coreui/icons-react"
 import {
   CContainer,
@@ -9,32 +9,18 @@ import {
   CHeader,
   CHeaderNav,
   CHeaderToggler,
-  CNavItem,
-  CNavLink,
   useColorModes,
 } from "@coreui/react"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-import { io } from "socket.io-client"
-import { getHeaders } from "../api/config"
 import { AppHeaderDropdown } from "./header/index"
 
 const AppHeader = () => {
-  const socketUrl = "https://udharaa.com"
   const headerRef = useRef()
   const { colorMode, setColorMode } = useColorModes("coreui-free-react-admin-template-theme")
-
-  const token = getHeaders().token
-
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
-
-  const [socket, setSocket] = useState(null)
-  const [socketID, setSocketID] = useState(null)
-  const [newNotification, setNewNotification] = useState(false)
-  const [contractSigned, setContractSigned] = useState(true)
-  const [startConnection, setStartConnection] = useState(false)
 
   useEffect(() => {
     document.addEventListener("scroll", () => {
@@ -43,47 +29,6 @@ const AppHeader = () => {
     })
   }, [])
 
-  useEffect(() => {
-    let newSocket = ""
-    if (localStorage.getItem("authToken")) {
-      newSocket = io(socketUrl, {
-        path: "/socket",
-        // reconnection: true,
-        transports: ["websocket", "polling"],
-        // reconnectionAttempts: 5
-        withCredentials: true,
-      })
-
-      setSocket(newSocket)
-    }
-
-    return () => {
-      if (newSocket) {
-        newSocket?.disconnect()
-      }
-    }
-  }, [])
-
-  useEffect(() => {
-    socket?.on("connect", () => {
-      setSocketID(socket?.id)
-    })
-
-    socket?.on("disconnect", () => {
-      setSocketID(null)
-    })
-  }, [socket])
-
-  useEffect(() => {
-    if (socket == null) return
-    socket.emit("addNewUser", localStorage.getItem("UserID"), true)
-    socket.on("new_notification", () => {
-      setNewNotification(true)
-    })
-    return () => {
-      socket?.off("new_notification")
-    }
-  }, [socket])
 
   return (
     <CHeader position="sticky" className="mb-4 p-0" ref={headerRef}>
@@ -127,15 +72,6 @@ const AppHeader = () => {
               >
                 <CIcon className="me-2" icon={cilMoon} size="lg" /> Dark
               </CDropdownItem>
-              {/* <CDropdownItem
-                active={colorMode === "auto"}
-                className="d-flex align-items-center"
-                as="button"
-                type="button"
-                onClick={() => setColorMode("auto")}
-              >
-                <CIcon className="me-2" icon={cilContrast} size="lg" /> Auto
-              </CDropdownItem> */}
             </CDropdownMenu>
           </CDropdown>
           <li className="nav-item py-1">

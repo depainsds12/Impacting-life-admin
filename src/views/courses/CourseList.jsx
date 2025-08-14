@@ -154,7 +154,6 @@ const CoursesList = () => {
                                                     title="Delete Course"
                                                     onClick={() => onDeleteGetID(item?._id)}
                                                     style={{
-                                                        color: "red",
                                                         margin: "0px 5px",
                                                         cursor: "pointer",
                                                     }}

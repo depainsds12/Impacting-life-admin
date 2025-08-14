@@ -155,7 +155,7 @@ const TestimonialsForm = () => {
           image: "",
           imageFile: null,
         });
-        navigate("/testimonial-cms")
+        setTimeout(() => navigate("/testimonial-cms"), 3000);
       } else {
         throw new Error("Unexpected response");
       }

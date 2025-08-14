@@ -133,7 +133,7 @@ const HowItWorksForm = () => {
         setToastMessage(itemId ? "Entry Updated Successfully" : "Entry Submitted Successfully");
         setToastColor("success");
         setItem({ title: "", description: "", image: "", imageFile: null });
-        navigate("/how-it-works-cms")
+        setTimeout(() => navigate("/how-it-works-cms"), 3000);
       } else {
         throw new Error("Unexpected response");
       }

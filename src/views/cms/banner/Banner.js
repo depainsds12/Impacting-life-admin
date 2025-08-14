@@ -116,7 +116,7 @@ const Banner = () => {
                 setToastMessage(`Banner ${itemId ? "updated" : "created"} successfully`);
                 setToastColor("success");
                 setTimeout(() => setToastFlag(false), 2000);
-                navigate('/banners')
+                setTimeout(() => navigate('/banners'), 3000);
             } else {
                 throw new Error();
             }

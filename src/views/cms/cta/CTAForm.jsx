@@ -162,7 +162,7 @@ const CTAManagement = () => {
           image: '',
           imageFile: null,
         });
-        navigate('/cta')
+        setTimeout(() => navigate('/cta'), 3000);
       } else {
         throw new Error('Unexpected response');
       }

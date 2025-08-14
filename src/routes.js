@@ -26,6 +26,7 @@ const Categories = React.lazy(() => import("./views/courses/Categories"))
 const Formats = React.lazy(() => import("./views/courses/Formats"))
 const CoursesList = React.lazy(() => import("./views/courses/CourseList"))
 const CourseForm = React.lazy(() => import("./views/courses/CourseForm"))
+const LearningMethodForm = React.lazy(() => import("./views/courses/LearningMethod"))
 const CourseIncludes = React.lazy(() => import("./views/courses/CourseIncludesIcons"))
 
 
@@ -112,6 +113,7 @@ const routes = [
   { path: "/learning-methods", name: "Learning Methods", element: Formats },
   { path: "/course-list", name: "Courses", element: CoursesList },
   { path: "/course-form", name: "Courses", element: CourseForm },
+  { path: "/learning-method-form", name: "Courses", element: LearningMethodForm },
   { path: "/course-includes", name: "Course Includes", element: CourseIncludes },
 
 
